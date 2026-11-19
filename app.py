@@ -1158,32 +1158,80 @@ def inject_luxury_css(lang: str) -> None:
 
 
 def render_hero_banner(config: dict[str, Any], lang: str) -> None:
-    t = TRANSLATIONS[lang]
-    hotel_name = html.escape(str(config["name"].get(lang, config["name"]["en"])))
-    tagline = html.escape(str(config["tagline"].get(lang, config["tagline"]["en"])))
-    phone = html.escape(str(config.get("phone", "")))
-    email = html.escape(str(config.get("email", "")))
-    check_in = html.escape(str(config.get("check_in_time", "15:00")))
-    check_out = html.escape(str(config.get("check_out_time", "12:00")))
-    stars = int(config.get("star_rating", 5))
-    star_icons = "★" * max(1, min(stars, 5))
-    star_text = html.escape(t["star_badge"].format(stars=stars))
-    hero_url = html.escape(str(config.get("hero_image_url") or DEFAULT_HERO_IMAGE))
-    fallback_url = html.escape(DEFAULT_HERO_IMAGE)
+  t = TRANSLATIONS[lang]
+  hotel_name = html.escape(str(config["name"].get(lang, config["name"]["en"])))
+  tagline = html.escape(
+      str(config["tagline"].get(lang, config["tagline"]["en"]))
+  )
+  phone = html.escape(str(config.get("phone", "")))
+  email = html.escape(str(config.get("email", "")))
+  check_in = html.escape(str(config.get("check_in_time", "15:00")))
+  check_out = html.escape(str(config.get("check_out_time", "12:00")))
+  stars = int(config.get("star_rating", 5))
+  star_icons = "★" * max(1, min(stars, 5))
+  star_text = html.escape(t["star_badge"].format(stars=stars))
+  raw_url = str(config.get("hero_image_url") or DEFAULT_HERO_IMAGE).strip()
+  if not raw_url.startswith(("http://", "https://")):
+    raw_url = DEFAULT_HERO_IMAGE
+  hero_url = html.escape(raw_url)
 
-    hero_html = f"""
-    <div class="luxury-hero">
-        <img
-            class="luxury-hero-bg"
-            src="{hero_url}"
-            alt="{hotel_name}"
-            onerror="this.onerror=null;this.src='{fallback_url}';"
-        />
-        <div class="luxury-hero-overlay">
-            <div class="luxury-stars">{star_icons} &nbsp; {star_text}</div>
-            <h1 class="luxury-hero-title">{hotel_name}</h1>
-            <p class="luxury-hero-tagline">{tagline}</p>
-            <div class="luxury-hero-meta">
+  hero_html = f"""
+    <div style="
+        position: relative;
+        width: 100%;
+        min-height: 290px;
+        border-radius: 18px;
+        overflow: hidden;
+        background-color: #0F172A;
+        background-image: linear-gradient(180deg, rgba(15,23,42,0.25) 0%, rgba(15,23,42,0.72) 55%, rgba(15,23,42,0.94) 100%), url('{hero_url}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin-bottom: 1.35rem;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+        border: 1px solid rgba(217, 119, 6, 0.32);
+    ">
+        <div style="
+            min-height: 290px;
+            padding: 2rem 2.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        ">
+            <div style="
+                display: inline-block;
+                width: fit-content;
+                padding: 0.32rem 0.88rem;
+                border-radius: 8px;
+                background: rgba(217, 119, 6, 0.95);
+                color: #FFFFFF;
+                font-size: 0.82rem;
+                font-weight: 700;
+                margin-bottom: 0.75rem;
+            ">{star_icons} &nbsp; {star_text}</div>
+            <h1 style="
+                color: #FFFFFF;
+                font-size: 2.15rem;
+                font-weight: 700;
+                margin: 0 0 0.4rem 0;
+                line-height: 1.25;
+            ">{hotel_name}</h1>
+            <p style="
+                color: #E2E8F0;
+                font-size: 1.05rem;
+                margin: 0 0 1.15rem 0;
+                max-width: 780px;
+            ">{tagline}</p>
+            <div style="
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1.25rem;
+                color: #FDE68A;
+                font-size: 0.88rem;
+                font-weight: 500;
+                border-top: 1px solid rgba(255, 255, 255, 0.18);
+                padding-top: 0.85rem;
+            ">
                 <span>{t['sidebar_phone']}: <bdi>{phone}</bdi></span>
                 <span>{t['sidebar_email']}: <bdi>{email}</bdi></span>
                 <span>{t['hero_checkin_label']}: <bdi>{check_in}</bdi> · {t['hero_checkout_label']}: <bdi>{check_out}</bdi></span>
@@ -1191,7 +1239,7 @@ def render_hero_banner(config: dict[str, Any], lang: str) -> None:
         </div>
     </div>
     """
-    st.markdown(hero_html, unsafe_allow_html=True)
+  st.markdown(hero_html, unsafe_allow_html=True)
 
 
 def render_overview_tab(config: dict[str, Any], lang: str) -> None:
