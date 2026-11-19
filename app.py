@@ -32,8 +32,8 @@ CONFIG_FILE = BASE_DIR / "hotel_config.json"
 BOOKINGS_FILE = BASE_DIR / "bookings.json"
 
 DEFAULT_HERO_IMAGE = (
-    "https://images.unsplash.com/photo-1566073771259-6a8506099945"
-    "?auto=format&fit=crop&w=1400&q=80"
+    "https://images.unsplash.com/photo-1582719508461-905c673771fd"
+    "?auto=format&fit=crop&w=1600&q=85"
 )
 
 ROOM_KEYS = ["single", "double", "twin", "junior_suite", "royal_suite"]
@@ -280,6 +280,7 @@ TRANSLATIONS: dict[str, dict[str, Any]] = {
         "admin_wrong_pin": "Incorrect PIN. Please try again (default demo PIN is 1234).",
         "admin_section_a": "Section A — White-Label Hotel Customizer",
         "admin_section_b": "Section B — Bookings & CRM Dashboard",
+        "admin_customizer_expand": "Expand to Customize Hotel Brand, Rates, Amenities & AI Model",
         "cfg_names_group": "Hotel Branding (English, Persian, Arabic)",
         "cfg_name_en": "Hotel Name (English)",
         "cfg_name_fa": "Hotel Name (Persian)",
@@ -484,6 +485,7 @@ TRANSLATIONS: dict[str, dict[str, Any]] = {
         "admin_wrong_pin": "کد پین نادرست است. لطفاً مجدداً تلاش کنید (پین پیش‌فرض دمو: 1234).",
         "admin_section_a": "بخش اول — سفارشی‌سازی برند و اطلاعات هتل",
         "admin_section_b": "بخش دوم — داشبورد رزرواسیون و مدیریت مشتریان (CRM)",
+        "admin_customizer_expand": "باز کردن تنظیمات برند، نرخ اتاق‌ها، امکانات و مدل هوش مصنوعی",
         "cfg_names_group": "هویت برند هتل (انگلیسی، فارسی، عربی)",
         "cfg_name_en": "نام هتل (انگلیسی)",
         "cfg_name_fa": "نام هتل (فارسی)",
@@ -688,6 +690,7 @@ TRANSLATIONS: dict[str, dict[str, Any]] = {
         "admin_wrong_pin": "الرمز السري غير صحيح. يرجى المحاولة مجدداً (الرمز التجريبي: 1234).",
         "admin_section_a": "القسم الأول — تخصيص هوية وبيانات الفندق",
         "admin_section_b": "القسم الثاني — لوحة الحجوزات وإدارة علاقات العملاء",
+        "admin_customizer_expand": "فتح إعدادات الهوية، أسعار الغرف، المرافق ونموذج الذكاء الاصطناعي",
         "cfg_names_group": "هوية الفندق باللغات الثلاث",
         "cfg_name_en": "اسم الفندق (الإنجليزية)",
         "cfg_name_fa": "اسم الفندق (الفارسية)",
@@ -898,6 +901,7 @@ def inject_luxury_css(lang: str) -> None:
     section[data-testid="stSidebar"] {{
         background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%);
         border-inline-end: 1px solid rgba(217, 119, 6, 0.25);
+        padding-top: 0.75rem;
     }}
 
     section[data-testid="stSidebar"] * {{
@@ -906,20 +910,18 @@ def inject_luxury_css(lang: str) -> None:
 
     section[data-testid="stSidebar"] input,
     section[data-testid="stSidebar"] [data-baseweb="select"] > div {{
-        background-color: rgba(15, 23, 42, 0.72) !important;
+        background-color: rgba(15, 23, 42, 0.78) !important;
         border: 1px solid rgba(217, 119, 6, 0.45) !important;
         color: #F8FAFC !important;
         border-radius: 10px !important;
     }}
 
-    /* Ensure dropdown menus align properly in RTL/LTR */
     [data-baseweb="popover"], [data-baseweb="menu"], ul[role="listbox"] {{
         direction: {direction} !important;
         text-align: {align} !important;
         font-family: {font_family} !important;
     }}
 
-    /* Primary & Form Submit Buttons */
     .stButton > button,
     .stFormSubmitButton > button,
     .stDownloadButton > button {{
@@ -941,22 +943,21 @@ def inject_luxury_css(lang: str) -> None:
         filter: brightness(1.05) !important;
     }}
 
-    /* Form Containers */
     div[data-testid="stForm"] {{
-        background: rgba(255, 255, 255, 0.92);
+        background: rgba(255, 255, 255, 0.94);
         border: 1px solid rgba(132, 169, 120, 0.28);
         border-radius: 16px;
         padding: 1.5rem;
         box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
     }}
 
-    /* Tabs Styling */
     .stTabs [data-baseweb="tab-list"] {{
         gap: 0.5rem;
-        background: rgba(255, 255, 255, 0.88);
+        background: rgba(255, 255, 255, 0.9);
         border: 1px solid rgba(132, 169, 120, 0.28);
         border-radius: 12px;
         padding: 0.35rem;
+        margin-bottom: 0.6rem;
     }}
 
     .stTabs [data-baseweb="tab"] {{
@@ -972,49 +973,53 @@ def inject_luxury_css(lang: str) -> None:
         color: #FDE68A !important;
     }}
 
-    /* Hero Banner */
     .luxury-hero {{
         position: relative;
         width: 100%;
-        min-height: 290px;
+        min-height: 295px;
         border-radius: 18px;
         overflow: hidden;
         background-color: #0F172A;
-        background-image: linear-gradient(135deg, #0F172A 0%, #1E293B 55%, #78350F 100%);
-        background-size: cover;
-        background-position: center;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.35rem;
         box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
-        border: 1px solid rgba(217, 119, 6, 0.25);
+        border: 1px solid rgba(217, 119, 6, 0.32);
+    }}
+
+    .luxury-hero-bg {{
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
     }}
 
     .luxury-hero-overlay {{
         position: relative;
         z-index: 2;
-        min-height: 290px;
+        min-height: 295px;
         padding: 2rem 2.25rem;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
         background: linear-gradient(
             180deg,
-            rgba(15, 23, 42, 0.25) 0%,
-            rgba(15, 23, 42, 0.65) 55%,
-            rgba(15, 23, 42, 0.92) 100%
+            rgba(15, 23, 42, 0.22) 0%,
+            rgba(15, 23, 42, 0.68) 52%,
+            rgba(15, 23, 42, 0.93) 100%
         );
     }}
 
     .luxury-stars {{
         display: inline-block;
         width: fit-content;
-        padding: 0.3rem 0.85rem;
+        padding: 0.32rem 0.88rem;
         border-radius: 8px;
-        background: rgba(217, 119, 6, 0.92);
+        background: rgba(217, 119, 6, 0.95);
         color: #FFFFFF;
         font-size: 0.82rem;
         font-weight: 700;
         margin-bottom: 0.75rem;
-        letter-spacing: 0.02em;
     }}
 
     .luxury-hero-title {{
@@ -1029,7 +1034,7 @@ def inject_luxury_css(lang: str) -> None:
         color: #E2E8F0;
         font-size: 1.05rem;
         margin: 0 0 1.15rem 0;
-        max-width: 760px;
+        max-width: 780px;
     }}
 
     .luxury-hero-meta {{
@@ -1039,11 +1044,10 @@ def inject_luxury_css(lang: str) -> None:
         color: #FDE68A;
         font-size: 0.88rem;
         font-weight: 500;
-        border-top: 1px solid rgba(255, 255, 255, 0.16);
+        border-top: 1px solid rgba(255, 255, 255, 0.18);
         padding-top: 0.85rem;
     }}
 
-    /* Cards */
     .luxury-card {{
         background: #FFFFFF;
         border: 1px solid #E2E8F0;
@@ -1134,7 +1138,6 @@ def inject_luxury_css(lang: str) -> None:
         direction: ltr !important;
     }}
 
-    /* Chat messages RTL/LTR fix */
     [data-testid="stChatMessage"] {{
         direction: {direction} !important;
         text-align: {align} !important;
@@ -1166,9 +1169,16 @@ def render_hero_banner(config: dict[str, Any], lang: str) -> None:
     star_icons = "★" * max(1, min(stars, 5))
     star_text = html.escape(t["star_badge"].format(stars=stars))
     hero_url = html.escape(str(config.get("hero_image_url") or DEFAULT_HERO_IMAGE))
+    fallback_url = html.escape(DEFAULT_HERO_IMAGE)
 
     hero_html = f"""
-    <div class="luxury-hero" style="background-image: url('{hero_url}'), linear-gradient(135deg, #0F172A 0%, #1E293B 55%, #78350F 100%);">
+    <div class="luxury-hero">
+        <img
+            class="luxury-hero-bg"
+            src="{hero_url}"
+            alt="{hotel_name}"
+            onerror="this.onerror=null;this.src='{fallback_url}';"
+        />
         <div class="luxury-hero-overlay">
             <div class="luxury-stars">{star_icons} &nbsp; {star_text}</div>
             <h1 class="luxury-hero-title">{hotel_name}</h1>
@@ -1272,7 +1282,6 @@ def render_booking_tab(config: dict[str, Any], lang: str) -> None:
     st.subheader(t["booking_title"])
     st.write(t["booking_subtitle"])
 
-    # Step 1 outside form so Estimated Price Preview updates live on every change
     st.markdown(f"#### {t['booking_step_stay']}")
     today = datetime.date.today()
     default_checkout = today + datetime.timedelta(days=2)
@@ -1367,7 +1376,6 @@ def render_booking_tab(config: dict[str, Any], lang: str) -> None:
                 unsafe_allow_html=True,
             )
 
-    # Step 2: Guest details form
     st.markdown(f"#### {t['booking_step_guest']}")
     with st.form("guest_booking_form", clear_on_submit=False):
         g_col1, g_col2, g_col3 = st.columns(3)
@@ -1531,16 +1539,13 @@ def render_ai_concierge_tab(config: dict[str, Any], lang: str, api_key: str) -> 
     if chat_key not in st.session_state:
         st.session_state[chat_key] = []
 
-    # Render static localized welcome message (Zero API calls on load!)
     with st.chat_message("assistant"):
         st.markdown(t["ai_welcome"].format(hotel=hotel_name))
 
-    # Render conversation history
     for message in st.session_state[chat_key]:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    # Quick-prompt chips (strictly translated)
     st.caption(t["ai_quick_prompts_label"])
     prompt_cols = st.columns(3, gap="small")
     clicked_prompt: str | None = None
@@ -1552,7 +1557,6 @@ def render_ai_concierge_tab(config: dict[str, Any], lang: str, api_key: str) -> 
     typed_prompt = st.chat_input(t["ai_input_placeholder"], key=f"chat_input_{lang}")
     active_prompt = clicked_prompt or typed_prompt
 
-    # CRITICAL QUOTA RULE: Call Gemini ONLY when the user actively submits a new message
     if active_prompt:
         st.session_state[chat_key].append({"role": "user", "content": active_prompt})
         with st.chat_message("user"):
@@ -1601,14 +1605,17 @@ def render_admin_tab(config: dict[str, Any], lang: str) -> None:
                 st.error(t["admin_wrong_pin"])
         return
 
-    if st.button(t["admin_lock_btn"], key="lock_admin_btn"):
-        st.session_state["admin_unlocked"] = False
-        st.rerun()
+    top_bar1, top_bar2 = st.columns([5, 1])
+    with top_bar1:
+        st.markdown(f"### {t['admin_section_b']}")
+    with top_bar2:
+        if st.button(t["admin_lock_btn"], key="lock_admin_btn", width="stretch"):
+            st.session_state["admin_unlocked"] = False
+            st.rerun()
 
     # -------------------------------------------------------------------------
     # SECTION B — BOOKINGS & CRM DASHBOARD
     # -------------------------------------------------------------------------
-    st.markdown(f"### {t['admin_section_b']}")
     bookings = load_bookings()
     currency = str(config.get("currency", "USD"))
 
@@ -1658,7 +1665,6 @@ def render_admin_tab(config: dict[str, Any], lang: str) -> None:
         df = pd.DataFrame(display_rows)
         st.dataframe(df, width="stretch", hide_index=True)
 
-        # Status Updater + CSV Download
         st.markdown(f"#### {t['crm_update_title']}")
         u1, u2, u3 = st.columns([1.4, 1.2, 1.0])
         ref_options = [b["ref_id"] for b in bookings]
@@ -1704,97 +1710,98 @@ def render_admin_tab(config: dict[str, Any], lang: str) -> None:
     st.divider()
 
     # -------------------------------------------------------------------------
-    # SECTION A — WHITE-LABEL HOTEL CUSTOMIZER
+    # SECTION A — WHITE-LABEL HOTEL CUSTOMIZER (IN EXPANDER FOR CLEAN DEMO)
     # -------------------------------------------------------------------------
     st.markdown(f"### {t['admin_section_a']}")
-    with st.form("white_label_config_form"):
-        st.markdown(f"**{t['cfg_names_group']}**")
-        n1, n2, n3 = st.columns(3)
-        with n1:
-            name_en = st.text_input(t["cfg_name_en"], value=config["name"].get("en", ""))
-            tagline_en = st.text_input(t["cfg_tagline_en"], value=config["tagline"].get("en", ""))
-            addr_en = st.text_input(t["cfg_addr_en"], value=config["address"].get("en", ""))
-            desc_en = st.text_area(t["cfg_desc_en"], value=config["description"].get("en", ""), height=90)
-        with n2:
-            name_fa = st.text_input(t["cfg_name_fa"], value=config["name"].get("fa", ""))
-            tagline_fa = st.text_input(t["cfg_tagline_fa"], value=config["tagline"].get("fa", ""))
-            addr_fa = st.text_input(t["cfg_addr_fa"], value=config["address"].get("fa", ""))
-            desc_fa = st.text_area(t["cfg_desc_fa"], value=config["description"].get("fa", ""), height=90)
-        with n3:
-            name_ar = st.text_input(t["cfg_name_ar"], value=config["name"].get("ar", ""))
-            tagline_ar = st.text_input(t["cfg_tagline_ar"], value=config["tagline"].get("ar", ""))
-            addr_ar = st.text_input(t["cfg_addr_ar"], value=config["address"].get("ar", ""))
-            desc_ar = st.text_area(t["cfg_desc_ar"], value=config["description"].get("ar", ""), height=90)
+    with st.expander(t["admin_customizer_expand"], expanded=False):
+        with st.form("white_label_config_form"):
+            st.markdown(f"**{t['cfg_names_group']}**")
+            n1, n2, n3 = st.columns(3)
+            with n1:
+                name_en = st.text_input(t["cfg_name_en"], value=config["name"].get("en", ""))
+                tagline_en = st.text_input(t["cfg_tagline_en"], value=config["tagline"].get("en", ""))
+                addr_en = st.text_input(t["cfg_addr_en"], value=config["address"].get("en", ""))
+                desc_en = st.text_area(t["cfg_desc_en"], value=config["description"].get("en", ""), height=90)
+            with n2:
+                name_fa = st.text_input(t["cfg_name_fa"], value=config["name"].get("fa", ""))
+                tagline_fa = st.text_input(t["cfg_tagline_fa"], value=config["tagline"].get("fa", ""))
+                addr_fa = st.text_input(t["cfg_addr_fa"], value=config["address"].get("fa", ""))
+                desc_fa = st.text_area(t["cfg_desc_fa"], value=config["description"].get("fa", ""), height=90)
+            with n3:
+                name_ar = st.text_input(t["cfg_name_ar"], value=config["name"].get("ar", ""))
+                tagline_ar = st.text_input(t["cfg_tagline_ar"], value=config["tagline"].get("ar", ""))
+                addr_ar = st.text_input(t["cfg_addr_ar"], value=config["address"].get("ar", ""))
+                desc_ar = st.text_area(t["cfg_desc_ar"], value=config["description"].get("ar", ""), height=90)
 
-        st.markdown(f"**{t['cfg_contact_group']}**")
-        c1, c2, c3, c4 = st.columns(4)
-        with c1:
-            star_rating = st.slider(
-                t["cfg_stars"],
-                min_value=1,
-                max_value=5,
-                value=int(config.get("star_rating", 5)),
-            )
-            currency_code = st.text_input(t["cfg_currency"], value=str(config.get("currency", "USD")))
-        with c2:
-            phone = st.text_input(t["cfg_phone"], value=str(config.get("phone", "")))
-            check_in_time = st.text_input(t["cfg_checkin"], value=str(config.get("check_in_time", "15:00")))
-        with c3:
-            email = st.text_input(t["cfg_email"], value=str(config.get("email", "")))
-            check_out_time = st.text_input(t["cfg_checkout"], value=str(config.get("check_out_time", "12:00")))
-        with c4:
-            lat = st.number_input(
-                t["cfg_lat"],
-                value=float(config.get("latitude", 25.2048)),
-                format="%.6f",
-            )
-            lon = st.number_input(
-                t["cfg_lon"],
-                value=float(config.get("longitude", 55.2708)),
-                format="%.6f",
-            )
-
-        hero_url = st.text_input(
-            t["cfg_hero_url"],
-            value=str(config.get("hero_image_url", DEFAULT_HERO_IMAGE)),
-        )
-
-        st.markdown(f"**{t['cfg_pricing_group']}**")
-        p_cols = st.columns(len(ROOM_KEYS))
-        updated_room_prices: dict[str, float] = {}
-        for idx, rk in enumerate(ROOM_KEYS):
-            with p_cols[idx]:
-                updated_room_prices[rk] = float(
-                    st.number_input(
-                        t["rooms"][rk],
-                        min_value=10.0,
-                        value=float(config.get("room_prices", {}).get(rk, 200)),
-                        step=10.0,
-                    )
+            st.markdown(f"**{t['cfg_contact_group']}**")
+            c1, c2, c3, c4 = st.columns(4)
+            with c1:
+                star_rating = st.slider(
+                    t["cfg_stars"],
+                    min_value=1,
+                    max_value=5,
+                    value=int(config.get("star_rating", 5)),
+                )
+                currency_code = st.text_input(t["cfg_currency"], value=str(config.get("currency", "USD")))
+            with c2:
+                phone = st.text_input(t["cfg_phone"], value=str(config.get("phone", "")))
+                check_in_time = st.text_input(t["cfg_checkin"], value=str(config.get("check_in_time", "15:00")))
+            with c3:
+                email = st.text_input(t["cfg_email"], value=str(config.get("email", "")))
+                check_out_time = st.text_input(t["cfg_checkout"], value=str(config.get("check_out_time", "12:00")))
+            with c4:
+                lat = st.number_input(
+                    t["cfg_lat"],
+                    value=float(config.get("latitude", 25.2048)),
+                    format="%.6f",
+                )
+                lon = st.number_input(
+                    t["cfg_lon"],
+                    value=float(config.get("longitude", 55.2708)),
+                    format="%.6f",
                 )
 
-        active_amenities = st.multiselect(
-            t["cfg_amenities_label"],
-            options=AMENITY_KEYS,
-            default=[a for a in config.get("active_amenities", AMENITY_KEYS) if a in AMENITY_KEYS],
-            format_func=lambda k: t["amenities"][k][0],
-        )
-
-        st.markdown(f"**{t['cfg_ai_group']}**")
-        ai_c1, ai_c2 = st.columns(2)
-        with ai_c1:
-            gemini_model = st.text_input(
-                t["cfg_gemini_model"],
-                value=str(config.get("gemini_model", GEMINI_MODEL)),
-            )
-        with ai_c2:
-            admin_pin = st.text_input(
-                t["cfg_admin_pin"],
-                value=str(config.get("admin_pin", "1234")),
-                type="password",
+            hero_url = st.text_input(
+                t["cfg_hero_url"],
+                value=str(config.get("hero_image_url", DEFAULT_HERO_IMAGE)),
             )
 
-        save_cfg = st.form_submit_button(t["cfg_save_btn"], width="stretch")
+            st.markdown(f"**{t['cfg_pricing_group']}**")
+            p_cols = st.columns(len(ROOM_KEYS))
+            updated_room_prices: dict[str, float] = {}
+            for idx, rk in enumerate(ROOM_KEYS):
+                with p_cols[idx]:
+                    updated_room_prices[rk] = float(
+                        st.number_input(
+                            t["rooms"][rk],
+                            min_value=10.0,
+                            value=float(config.get("room_prices", {}).get(rk, 200)),
+                            step=10.0,
+                        )
+                    )
+
+            active_amenities = st.multiselect(
+                t["cfg_amenities_label"],
+                options=AMENITY_KEYS,
+                default=[a for a in config.get("active_amenities", AMENITY_KEYS) if a in AMENITY_KEYS],
+                format_func=lambda k: t["amenities"][k][0],
+            )
+
+            st.markdown(f"**{t['cfg_ai_group']}**")
+            ai_c1, ai_c2 = st.columns(2)
+            with ai_c1:
+                gemini_model = st.text_input(
+                    t["cfg_gemini_model"],
+                    value=str(config.get("gemini_model", GEMINI_MODEL)),
+                )
+            with ai_c2:
+                admin_pin = st.text_input(
+                    t["cfg_admin_pin"],
+                    value=str(config.get("admin_pin", "1234")),
+                    type="password",
+                )
+
+            save_cfg = st.form_submit_button(t["cfg_save_btn"], width="stretch")
 
     if save_cfg:
         new_config = dict(config)
@@ -1840,7 +1847,7 @@ def render_admin_tab(config: dict[str, Any], lang: str) -> None:
 
 def main() -> None:
     st.set_page_config(
-        page_title="Hotel CRM & AI Guest Concierge",
+        page_title="Aurelia Grand — Hotel CRM & AI Guest Concierge",
         page_icon="🏨",
         layout="wide",
         initial_sidebar_state="expanded",
@@ -1852,7 +1859,6 @@ def main() -> None:
     if "lang" not in st.session_state:
         st.session_state["lang"] = "en"
 
-    # Prominent Language Selector at top of sidebar
     with st.sidebar:
         selected_lang = st.selectbox(
             label=TRANSLATIONS[st.session_state["lang"]]["sidebar_lang_label"],
@@ -1869,10 +1875,9 @@ def main() -> None:
     t = TRANSLATIONS[lang]
     inject_luxury_css(lang)
 
-    # Sidebar details & optional Gemini API key input
     with st.sidebar:
         st.divider()
-        st.markdown(f"### {t['sidebar_hotel_info']}")
+        st.markdown(f"#### {t['sidebar_hotel_info']}")
         st.markdown(f"**{t['sidebar_phone']}:** <bdi>{html.escape(str(config.get('phone', '')))}</bdi>", unsafe_allow_html=True)
         st.markdown(f"**{t['sidebar_email']}:** <bdi>{html.escape(str(config.get('email', '')))}</bdi>", unsafe_allow_html=True)
         st.markdown(
@@ -1882,7 +1887,7 @@ def main() -> None:
         )
 
         st.divider()
-        st.markdown(f"### {t['sidebar_ai_section']}")
+        st.markdown(f"#### {t['sidebar_ai_section']}")
         api_override = st.text_input(
             t["sidebar_api_key_label"],
             type="password",
@@ -1898,7 +1903,6 @@ def main() -> None:
             f"{t['sidebar_model_label']}: {config.get('gemini_model', GEMINI_MODEL)}"
         )
 
-    # Render Hero Banner & 4 Core Tabs
     render_hero_banner(config, lang)
 
     tab_overview, tab_booking, tab_ai, tab_admin = st.tabs(t["tabs"])
